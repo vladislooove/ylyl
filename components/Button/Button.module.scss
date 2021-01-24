@@ -7,7 +7,7 @@
   border: 1px solid #7952b3;
   cursor: pointer;
   border-radius: 20px;
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: opacity .15s ease-in-out, color .15s ease-in-out, background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 
   &:hover,
   &:focus {
@@ -24,5 +24,10 @@
     background-color: #61428f;
     border-color: #61428f;
     outline: none;
+  }
+
+  &[disabled] {
+    pointer-events: none;
+    opacity: .5;
   }
 }

@@ -21,7 +21,7 @@ const Home: FC = () => (
       Application need to access to your web camera. Do not afraid - your face wont be shown to other players, we need camera just to recognize your emotions while you are playing.
     </p>
     <p>
-      <Link href="/play">
+      <Link href="/login">
         <Button>Letsa go!</Button>
       </Link>
     </p>
