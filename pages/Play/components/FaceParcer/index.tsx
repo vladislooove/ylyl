@@ -9,6 +9,10 @@ export const FaceParcer: FC<FaceParcerProps> = ({ stream, onLaugh }) => {
   const video = useRef<HTMLVideoElement | null>(null);
 
   const detectFace = async () => {
+    if (!video?.current) {
+      return;
+    }
+
     const face = await faceapi.detectSingleFace(
       video.current as HTMLVideoElement,
       new faceapi.TinyFaceDetectorOptions({
