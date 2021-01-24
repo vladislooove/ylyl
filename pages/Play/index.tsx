@@ -5,6 +5,7 @@ import * as faceapi from 'face-api.js';
 // Components
 import Loader from '../../components/Loader';
 import CameraStreamError from './components/CameraStreamError';
+import FaceParcer from './components/FaceParcer';
 
 export const Play: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +16,8 @@ export const Play: FC = () => {
     try {
       setIsLoading(true);
       await navigator.permissions.query({ name: 'camera' });
-      await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
+      await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
+      await faceapi.loadFaceExpressionModel('/models');
       const cameraStream = await navigator.mediaDevices.getUserMedia({ video: {} });
       setStream(cameraStream);
     } catch (e) {
@@ -23,6 +25,10 @@ export const Play: FC = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const onLaugh = () => {
+    console.log('LOOSE');
   };
 
   useEffect(() => {
@@ -43,7 +49,7 @@ export const Play: FC = () => {
   
   return (
     <div>
-      
+      {stream && <FaceParcer stream={stream} onLaugh={onLaugh} />}
     </div>
   );
 }
