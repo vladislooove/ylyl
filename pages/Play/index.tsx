@@ -1,5 +1,6 @@
 // Libs
 import { FC, useState, useEffect } from 'react';
+import * as faceapi from 'face-api.js';
 
 // Components
 import Loader from '../../components/Loader';
@@ -10,10 +11,11 @@ export const Play: FC = () => {
   const [cameraStreamError, setCameraStreamError] = useState(false);
   const [stream, setStream] = useState<null | MediaStream>(null);
 
-  const getVideoStream = async () => {
+  const initVideo = async () => {
     try {
       setIsLoading(true);
       await navigator.permissions.query({ name: 'camera' });
+      await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
       const cameraStream = await navigator.mediaDevices.getUserMedia({ video: {} });
       setStream(cameraStream);
     } catch (e) {
@@ -24,7 +26,11 @@ export const Play: FC = () => {
   };
 
   useEffect(() => {
-    getVideoStream();
+    initVideo();
+
+    return () => {
+      stream?.getTracks().forEach((track) => track.stop());
+    };
   }, []);
 
   if (isLoading) {
@@ -37,7 +43,7 @@ export const Play: FC = () => {
   
   return (
     <div>
-      Play
+      
     </div>
   );
 }
