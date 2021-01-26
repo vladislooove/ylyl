@@ -38,7 +38,7 @@ export const Play: FC = () => {
         id: generatedId,
       });
 
-      socket.on(SOCKET_UPDATE_USERS_LIST, (users: User[]) => {
+      socket.on(SOCKET_UPDATE_USERS_LIST, (users: IUser[]) => {
         setUsersList(users);
       });
 
@@ -90,7 +90,7 @@ export const Play: FC = () => {
       <div className={styles.users}>
         {usersList.map((item) => <User key={item.id} user={item} current={item.id === generatedId} />)}
       </div>
-      {/* {stream && <FaceParcer stream={stream} onLaugh={onLaugh} />} */}
+      {stream && <FaceParcer stream={stream} onLaugh={onLaugh} />}
     </div>
   );
 }
