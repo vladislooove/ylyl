@@ -5,3 +5,8 @@ export interface Content {
   text?: string;
   source?: string;
 }
+
+export interface User {
+  name: string;
+  id: string;
+}

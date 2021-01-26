@@ -1,0 +1,18 @@
+.user {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #e3dcf3;
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  & + & {
+    margin-top: 10px;
+  }
+}
+
+.userCurrent {
+  background-color: #7952b3;
+  color: #fff;
+}

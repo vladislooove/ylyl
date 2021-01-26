@@ -1,0 +1,4 @@
+// Socket events
+export const SOCKET_USER_ENTER = '@@SOCKET/USER_ENTER';
+export const SOCKET_USER_EXIT = '@@SOCKET/USER_EXIT';
+export const SOCKET_UPDATE_USERS_LIST = '@@SOCKET/UPDATE_USERS_LIST';
