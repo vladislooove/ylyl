@@ -22,7 +22,7 @@ import styles from './Play.module.scss';
 
 export const Play: FC = () => {
   const router = useRouter();
-  const generatedId = uuidv4();
+  const [generatedId] = useState(uuidv4());
 
   const [isLoading, setIsLoading] = useState(true);
   const [usersList, setUsersList] = useState<IUser[]>([]);
@@ -84,6 +84,7 @@ export const Play: FC = () => {
     return <CameraStreamError />
   }
   
+  console.log(generatedId, usersList);
   return (
     <div className={styles.container}>
       <div className={styles.users}>
