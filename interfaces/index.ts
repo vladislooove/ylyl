@@ -9,4 +9,5 @@ export interface Content {
 export interface User {
   name: string;
   id: string;
+  _id?: string;
 }

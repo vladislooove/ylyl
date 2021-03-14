@@ -2,7 +2,7 @@
 import { Server, Socket } from 'socket.io';
 
 // Constants
-import { SOCKET_USER_ENTER, SOCKET_UPDATE_USERS_LIST, SOCKET_USER_EXIT } from './constants';
+import { SOCKET_USER_ENTER, SOCKET_UPDATE_USERS_LIST } from './constants';
 
 // Types
 import { User } from '../../../interfaces';
@@ -16,14 +16,16 @@ const ioHandler = (req: any, res: any) => {
 
     io.on('connection', (socket: Socket) => {
       socket.on(SOCKET_USER_ENTER, (user: User) => {
-        usersConnected.push(user);
-        socket.emit(SOCKET_UPDATE_USERS_LIST, usersConnected);
+        usersConnected.push({
+          ...user,
+          _id: socket.id,
+        });
+        io.sockets.emit(SOCKET_UPDATE_USERS_LIST, usersConnected);
       });
 
-      socket.on(SOCKET_USER_EXIT, (id: string) => {
-        usersConnected = usersConnected.filter((item) => item.id !== id);
-        console.log(SOCKET_USER_EXIT, id, usersConnected);
-        socket.emit(SOCKET_UPDATE_USERS_LIST, usersConnected);
+      socket.on('disconnect', () => {
+        usersConnected = usersConnected.filter((item) => item._id !== socket.id);
+        io.sockets.emit(SOCKET_UPDATE_USERS_LIST, usersConnected);
       });
     });
 

@@ -12,7 +12,7 @@ import User from './components/User';
 import FaceParcer from './components/FaceParcer';
 
 // Constants
-import { SOCKET_USER_ENTER, SOCKET_UPDATE_USERS_LIST, SOCKET_USER_EXIT } from '../api/socketio/constants';
+import { SOCKET_USER_ENTER, SOCKET_UPDATE_USERS_LIST } from '../api/socketio/constants';
 
 // Types
 import { User as IUser } from '../../interfaces';
@@ -39,11 +39,8 @@ export const Play: FC = () => {
       });
 
       socket.on(SOCKET_UPDATE_USERS_LIST, (users: IUser[]) => {
+        console.log(SOCKET_UPDATE_USERS_LIST, users);
         setUsersList(users);
-      });
-
-      socket.on('disconnect', () => {
-        socket.emit(SOCKET_USER_EXIT, generatedId);
       });
     });
   }, []);
@@ -84,7 +81,6 @@ export const Play: FC = () => {
     return <CameraStreamError />
   }
   
-  console.log(generatedId, usersList);
   return (
     <div className={styles.container}>
       <div className={styles.users}>
