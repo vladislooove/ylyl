@@ -1,0 +1,21 @@
+.input {
+  display: block;
+  width: 100%;
+  padding: 8px 20px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: inherit;
+  background-color: #fff;
+  background-clip: padding-box;
+  border:2px solid #e3dcf3;
+  appearance: none;
+  border-radius: 20px;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+  &:focus {
+    border-color: #7952b3;
+    outline: 0;
+    box-shadow: 0 0 0 0.1rem rgba(13,110,253,.25);
+  }
+}

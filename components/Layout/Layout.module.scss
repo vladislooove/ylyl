@@ -1,0 +1,17 @@
+.layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(165deg, #e3dcf3 50%, #fff 50%);
+  padding: 30px;
+}
+
+.container {
+  max-width: 1450px;
+  background-color: rgba(255, 255, 255, 0.65);
+  padding: 20px;
+  border-radius: 20px;
+  border: 2px solid #e3dcf3;
+  transition: all .15s ease-in-out;
+}
