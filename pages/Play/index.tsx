@@ -19,6 +19,7 @@ import {
   SOCKET_POST_MESSAGE,
   SOCKET_UPDATE_MESSAGES,
   SOCKET_UPDATE_TIMER,
+  SOCKET_POST_LAUGHT,
 } from '../api/socketio/constants';
 
 // Types
@@ -90,7 +91,7 @@ export const Play: FC = () => {
   };
 
   const onLaugh = () => {
-    console.log('LOOSE');
+    socketInstance?.emit(SOCKET_POST_LAUGHT);
   };
 
   const onPostMessage = (message: string) => {

@@ -8,6 +8,7 @@ import {
   SOCKET_POST_MESSAGE,
   SOCKET_UPDATE_MESSAGES,
   SOCKET_UPDATE_TIMER,
+  SOCKET_POST_LAUGHT,
 } from './constants';
 
 // Types
@@ -46,6 +47,17 @@ const ioHandler = (req: any, res: any) => {
       socket.on(SOCKET_POST_MESSAGE, (message: Message) => {
         messages.push(message);
         io.sockets.emit(SOCKET_UPDATE_MESSAGES, messages);
+      });
+
+      socket.on(SOCKET_POST_LAUGHT, () => {
+        usersConnected = usersConnected.map((user) => ({
+          ...user,
+          scores: user._id === socket.id
+            ? user.scores + 10
+            : user.scores
+        }));
+
+        io.sockets.emit(SOCKET_UPDATE_USERS_LIST, usersConnected);
       });
 
       socket.on('disconnect', () => {

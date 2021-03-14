@@ -1,5 +1,5 @@
 // Libs
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import * as faceapi from 'face-api.js';
 
 // Types
@@ -10,6 +10,15 @@ import styles from './FaceParcer.module.scss';
 
 export const FaceParcer: FC<FaceParcerProps> = ({ stream, onLaugh }) => {
   const video = useRef<HTMLVideoElement | null>(null);
+  const [isLaught, setIsLaught] = useState(false);
+
+  const setLaughting = () => {
+    setIsLaught(true);
+
+    setTimeout(() => {
+      setIsLaught(false);
+    }, 1000);
+  }
 
   const detectFace = async () => {
     if (!video?.current) {
@@ -24,8 +33,9 @@ export const FaceParcer: FC<FaceParcerProps> = ({ stream, onLaugh }) => {
       }),
     ).withFaceExpressions();
 
-    if (face?.expressions?.happy > 0.8) {
-      return onLaugh();
+    if (face?.expressions?.happy > 0.7) {
+      setLaughting();
+      onLaugh();
     }
 
     setTimeout(() => detectFace());
@@ -41,7 +51,7 @@ export const FaceParcer: FC<FaceParcerProps> = ({ stream, onLaugh }) => {
 
   return (
     <>
-      <video ref={video} className={styles.video} />
+      <video ref={video} className={`${styles.video} ${isLaught ? styles.laught : ''}`} />
     </>
   );
 };
