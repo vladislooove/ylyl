@@ -5,6 +5,9 @@ import * as faceapi from 'face-api.js';
 // Types
 import { FaceParcerProps } from './types';
 
+// Styles
+import styles from './FaceParcer.module.scss';
+
 export const FaceParcer: FC<FaceParcerProps> = ({ stream, onLaugh }) => {
   const video = useRef<HTMLVideoElement | null>(null);
 
@@ -38,7 +41,7 @@ export const FaceParcer: FC<FaceParcerProps> = ({ stream, onLaugh }) => {
 
   return (
     <>
-      <video ref={video} />
+      <video ref={video} className={styles.video} />
     </>
   );
 };

@@ -2,14 +2,22 @@
 import { Server, Socket } from 'socket.io';
 
 // Constants
-import { SOCKET_USER_ENTER, SOCKET_UPDATE_USERS_LIST } from './constants';
+import {
+  SOCKET_USER_ENTER,
+  SOCKET_UPDATE_USERS_LIST,
+  SOCKET_POST_MESSAGE,
+  SOCKET_UPDATE_MESSAGES,
+  SOCKET_UPDATE_TIMER,
+} from './constants';
 
 // Types
-import { User } from '../../../interfaces';
+import { User, Message } from '../../../interfaces';
 
 const ioHandler = (req: any, res: any) => {
   let usersConnected: User[] = [];
+  let messages: Message[] = [];
   let moveIndex = 0;
+  let timeLeft = 60;
 
   if (!res.socket.server.io) {
     const io = new Server(res.socket.server);
@@ -35,10 +43,37 @@ const ioHandler = (req: any, res: any) => {
         io.sockets.emit(SOCKET_UPDATE_USERS_LIST, usersConnected);
       });
 
+      socket.on(SOCKET_POST_MESSAGE, (message: Message) => {
+        messages.push(message);
+        io.sockets.emit(SOCKET_UPDATE_MESSAGES, messages);
+      });
+
       socket.on('disconnect', () => {
         usersConnected = usersConnected.filter((item) => item._id !== socket.id);
         io.sockets.emit(SOCKET_UPDATE_USERS_LIST, usersConnected);
       });
+
+      setInterval(() => {
+        timeLeft--;
+
+        if (timeLeft) {
+          io.sockets.emit(SOCKET_UPDATE_TIMER, timeLeft);
+          return;
+        }
+
+        timeLeft = 60;
+        moveIndex = usersConnected[moveIndex + 1]
+          ? moveIndex + 1
+          : 0;
+
+        usersConnected = usersConnected.map((user, index) => ({
+          ...user,
+          isMoving: index === moveIndex,
+        }));
+
+        io.sockets.emit(SOCKET_UPDATE_TIMER, timeLeft);
+        io.sockets.emit(SOCKET_UPDATE_USERS_LIST, usersConnected);
+      }, 1000);
     });
 
     res.socket.server.io = io;

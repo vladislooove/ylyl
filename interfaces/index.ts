@@ -10,6 +10,11 @@ export interface User {
   name: string;
   id: string;
   _id: string;
-  isMoving: true;
+  isMoving: boolean;
   scores: number;
+}
+
+export interface Message {
+  content: string;
+  user: string;
 }
