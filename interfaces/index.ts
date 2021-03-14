@@ -9,5 +9,7 @@ export interface Content {
 export interface User {
   name: string;
   id: string;
-  _id?: string;
+  _id: string;
+  isMoving: true;
+  scores: number;
 }

@@ -1,5 +1,5 @@
 // Libs
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useMemo } from 'react';
 import * as faceapi from 'face-api.js';
 import { io } from 'socket.io-client';
 import { useRouter } from 'next/router';
@@ -45,6 +45,15 @@ export const Play: FC = () => {
     });
   }, []);
 
+  const user = useMemo(() => {
+    return usersList.find(({ id }) => id === generatedId);
+  }, [usersList, generatedId]);
+
+  const userMove = useMemo(() => {
+    const user = usersList.find(({ isMoving }) => isMoving);
+
+    return user?.name || user?.id;
+  }, [usersList]);
 
   const initVideo = async () => {
     try {
@@ -82,12 +91,23 @@ export const Play: FC = () => {
   }
   
   return (
-    <div className={styles.container}>
-      <div className={styles.users}>
-        {usersList.map((item) => <User key={item.id} user={item} current={item.id === generatedId} />)}
+    <>
+      <h2>
+        Now its your time to move, <b>{userMove}</b>
+      </h2>
+      <div className={styles.container}>
+        <div className={styles.users}>
+          {usersList.map((item) => (
+            <User
+              key={item.id}
+              user={item}
+              current={item.id === user?.id}
+            />
+          ))}
+        </div>
+        {stream && <FaceParcer stream={stream} onLaugh={onLaugh} />}
       </div>
-      {stream && <FaceParcer stream={stream} onLaugh={onLaugh} />}
-    </div>
+    </>
   );
 }
 

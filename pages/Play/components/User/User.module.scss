@@ -16,3 +16,27 @@
   background-color: #7952b3;
   color: #fff;
 }
+
+.userMoving {
+  animation: moving 2s infinite;
+}
+
+.userStats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 5px;
+
+  > b {
+    font-size: 24px;
+  }
+}
+
+@keyframes moving {
+  0%, 100% {
+    background-color: #6adc8d;
+  }
+  50% {
+    background-color: #e3dcf3;
+  }
+}

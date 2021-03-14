@@ -12,8 +12,12 @@ export const User: FC<UserProps> = ({
   current,
 }) => {
   return (
-    <div className={`${styles.user} ${current ? styles.userCurrent : ''}`}>
+    <div className={`${styles.user} ${current ? styles.userCurrent : ''} ${user.isMoving ? styles.userMoving : ''}`}>
       Name: {user.name}
+      <div className={styles.userStats}>
+        <span>Score:</span>
+        <b>{user.scores}</b>
+      </div>
     </div>
   )
 };
